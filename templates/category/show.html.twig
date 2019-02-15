@@ -1,0 +1,46 @@
+{% extends 'pagination.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>topics list: ✅</h1>
+
+    <div class="secondarynav">
+        <a href="/">FORUM</a> 
+    </div>
+
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('topic_add', {'categoryName': category.categoryName|replace({' ': '-'}) }) }}">New topic</a>
+    {% endif %}
+    
+{% block pagination %}
+    {{ parent() }}
+{% endblock %}
+
+    {% for topic in topics %}
+        
+        <div class="topics"> 
+
+            <a href="{{ path('topic_show', {'id': topic.id, 'topicName': topic.topicName|replace({' ': '-'}) }) }}"> 
+            {{ topic.topicName }}</a>
+            
+            <h4> author: {{ topic.userid.username }} </h4>
+
+            <h4> last reply: {{ topic.lastReply|date('H:i:s d/m/Y') }} </h4>
+            
+        </div>
+
+    {% else %}
+
+        <h1>There are no topics!</h1>
+
+    {% endfor %}
+    
+</div>
+{% endblock %}

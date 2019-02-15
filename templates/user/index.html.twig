@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}user{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+
+    <h1> username: {{ user.username }} ✅</h1>
+    <h3> email:    {{ user.email }} </h3>
+
+    <!--user's topics-->
+    <div> user's topics
+        {% for topic in user.topics %}
+            <div class="topics"> 
+
+            <a href="{{ path('topic_show', {'id': topic.id, 'topicName': topic.topicName}) }}"> {{ topic.topicName }}</a>
+            
+            <h4> author: {{ topic.userid.username }} </h4>
+
+            <h4> last reply: {{ topic.lastReply|date('H:i:s d/m/Y') }} </h4>
+            
+        </div>
+        {% endfor %}
+    </div>
+
+    <!--user's posts-->
+    <div> user's posts
+        {% for post in user.posts %}
+        <div class="post">
+            <h4>User: 
+                <a href="{{ path('user_show', {'username': post.userid.username}) }}">{{ post.userid.username }}</a>
+            </h4>
+            <h4> {{ post.createdAt|date("H:i:s d/m/Y") }} </h4>
+            <p> {{post.body}} </p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
